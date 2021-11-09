@@ -1,0 +1,19 @@
+@import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap');
+
+.title{
+    color: rgb(25, 160, 25);
+    font-size: 60px;
+    font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper > span {
+    margin-right: 20px;
+    margin-top: 10px;
+}

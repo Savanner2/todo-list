@@ -1,0 +1,24 @@
+<app-form (taskAdd)="onTaskAdd()"></app-form>
+<div class="container list">
+    <h1 class="empty" *ngIf="!tasks.length"><span class="glyphicon empty-icon glyphicon-list"></span><br>Task list is empty</h1>
+    <div class="task" *ngFor="let task of tasks" [ngClass]="{green: task.completed}">
+        <span class="buttons">
+            <button type="button" class="edit btn" (click)="onEdit(task.id, task.edit)"> 
+                <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+            <button type="button" class="remove btn" (click)="onRemove(task.id)">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+        </span>
+        <div class="rel" (dblclick)="onChangeCompleted(task.id)">
+            <h3 *ngIf="!task.edit" class="taskc">
+                {{task.content}}
+            </h3>
+            <h3 *ngIf="task.edit" class="edit-field" contenteditable="true" [textContent]="task.content" (input)="update($event,task)">{{task.content}}</h3>
+
+            <button *ngIf="task.edit" type="button" class="save btn btn-default" (click)="onSave(task.id, task.content)">
+                <span class="glyphicon glyphicon-ok"></span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+.list{
+    margin: 20px 0;
+}
+
+.green{
+    background-color: rgba(52, 228, 52, 0.842) !important;
+}
+
+.task{
+    position: relative;
+    border-radius: 5px;
+    transition: box-shadow 0.5s;
+    background-color: #EEE;
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid rgb(277, 277, 277);
+    font-family: 'Varela Round', sans-serif;
+}
+
+.remove{
+    background-color: red;
+    color: white;
+    font-size: 15px;
+}
+.edit{
+    background-color: blue;
+    color: white;
+    font-size: 15px;
+}
+.save{
+    background-color: rgb(54, 177, 54);
+    color: white;
+}
+
+
+.buttons{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 999;
+}
+
+.taskc{
+    font-weight: bold;
+    user-select: none;
+    word-wrap: break-word;
+    width: 80%;
+    font-size: 25px;
+}
+
+.rel{
+    display: flex;
+    align-items: center;
+}
+
+.edit-field{
+    width: 80%;
+    outline: none;
+    font-weight: bold;
+    font-size: 25px;
+    background: none;
+    resize: none;
+    height: auto;
+}
+.edit-field:focus{
+    outline: 2px solid black;
+    border-radius: 4px;
+}
+
+.btn{
+    transition: all .2s;
+}
+.btn:hover{
+    transform: scale(90%);
+    opacity: .8;
+}
+
+.task:hover{
+    box-shadow: 5px 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.empty{
+    text-align: center;
+    opacity: .5;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.empty-icon{
+    font-size: 100px;
+}

@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+.ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid green;
+  }
+  
+  .ng-invalid:not(form)  {
+    border-left: 5px solid red;
+  }
+
+*{
+  font-family: 'Varela Round', sans-serif;
+}
+
+input{
+  font-size: 20px;
+}

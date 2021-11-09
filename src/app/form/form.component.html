@@ -1,0 +1,11 @@
+<div class="container">
+    <form #Form="ngForm" (ngSubmit)="onSubmit(); cont=''">
+        <div class="form-group">
+            <label for="task">Task:</label>
+            <input class="form-control" type="text" name="task" id="task" placeholder="Enter task" required [(ngModel)]="cont" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!Form.form.valid">Add</button>
+    </form>
+    
+</div>
+
