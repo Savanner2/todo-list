@@ -4,7 +4,7 @@
             <hr>
             <form class="f1" #Form="ngForm" (ngSubmit)="submit()">
                 <div class="form-group">
-                    <input name="login" id="login" [(ngModel)]="login" class="form-control" placeholder="Login" type="text" required>
+                    <input name="login" id="login" [(ngModel)]="login" class="form-control" placeholder="Login" type="text" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <input class="form-control" name="pass" id="pass" [(ngModel)]="pass" placeholder="Password" type="password" required>
