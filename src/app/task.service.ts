@@ -49,4 +49,15 @@ export class TaskService {
     return this.http.delete<Task[]>(`${this.apiUrl}/${id}`);
   }
   
+
+  login(name: string, pass: string): Observable<boolean>{
+    const user = {
+      name: name,
+      pass: pass
+    }
+    
+    return this.http.post<boolean>(`http://localhost:3000/login`,user);
+    
+  }
+
 }

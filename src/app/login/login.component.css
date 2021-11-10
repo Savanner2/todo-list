@@ -1,0 +1,25 @@
+.cont{
+    width: 40%;
+    border: 1px solid rgba(0, 0, 0, 0.39);
+    border-radius: 20px;
+    margin-top: 100px;
+    box-shadow: 0 0 15px black;
+}
+.f1{
+    width: 70%;
+    margin: 0 auto;
+}
+
+.logout{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid green;
+  }
+  
+  .ng-invalid:not(form)  {
+    border-left: 5px solid red;
+  }

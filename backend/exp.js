@@ -85,5 +85,20 @@ app.put('/task/:id/completed', (req,res) => {
     res.send(true);
 })
 
+const users = [
+    {name: 'admin', pass: '1234'},
+    {name: 'user', pass: '123'}
+]
+
+app.post('/login', (req, res) => {
+    const user = req.body;
+    let auth = false;
+    
+    if(users.find(u => u.name === user.name && u.pass === user.pass))
+        auth = true;
+
+
+    res.status(200).send(auth);
+})
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

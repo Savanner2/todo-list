@@ -4,5 +4,6 @@
                 <h1 class="title">ToDo list</h1>
         </div>
         
-        <app-tasks-list></app-tasks-list>
+        <app-tasks-list *ngIf="auth()"></app-tasks-list>
+        <app-login></app-login>
 </div>

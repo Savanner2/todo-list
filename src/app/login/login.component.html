@@ -1,0 +1,18 @@
+<div *ngIf="!auth()" class="container cont">
+    <div class="card">
+            <h2 class="card-title text-center">Sign in to continue</h2>
+            <hr>
+            <form class="f1" #Form="ngForm" (ngSubmit)="submit()">
+                <div class="form-group">
+                    <input name="login" id="login" [(ngModel)]="login" class="form-control" placeholder="Login" type="text" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" name="pass" id="pass" [(ngModel)]="pass" placeholder="Password" type="password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block" [disabled]="!Form.form.valid"> Login  </button>
+                </div>
+            </form>
+        </div>
+</div>
+<button *ngIf="auth()" class="btn btn-danger logout" type="button" (click)="logout()">Logout</button>
