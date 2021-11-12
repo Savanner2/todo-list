@@ -37,7 +37,6 @@ connection.connect()
 
 // get tasks
 app.get('/task', (req, res) => {
-    console.log(table);
 
     connection.query(`SELECT * FROM ${table}`, function (err, rows) {
         if(err) throw err
