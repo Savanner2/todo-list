@@ -9,6 +9,8 @@ import { TaskService } from '../task.service';
 export class LoginComponent implements OnInit {
   login: string = '';
   pass: string = '';
+  user: string | null = localStorage.getItem('auth');
+  wrong: boolean = false;
 
   constructor(private taskService: TaskService) {}
 
@@ -17,22 +19,36 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
+    let login = this.login;
     this.taskService.login(this.login,this.pass).subscribe({
-      next: auth => localStorage.setItem('auth',JSON.stringify(auth))
+      next: auth => {
+        if(auth){
+          localStorage.setItem('auth',login)
+          this.user = localStorage.getItem('auth');
+          this.login = '';
+          this.pass = '';
+          this.wrong = false;
+        }
+        else{
+          this.wrong = true;
+          this.pass = '';
+        }
+      }
       
     });
-    this.login = '';
-    this.pass = '';
   }
 
   auth(): any{
-    const auth = JSON.parse(localStorage.getItem('auth')!);
+    const auth = localStorage.getItem('auth');
     
-      return auth;
+    if(auth)
+      return true;
+    else
+      return false;
   }
 
   logout() {
-    localStorage.setItem('auth',JSON.stringify(false));
+    localStorage.removeItem('auth');
   }
 
 }

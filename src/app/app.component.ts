@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { TaskService } from './task.service';
 
 @Component({
@@ -12,9 +11,12 @@ export class AppComponent {
   constructor(private taskService: TaskService){}
 
   auth(): any{
-    const auth = JSON.parse(localStorage.getItem('auth')!);
+    const auth = localStorage.getItem('auth');
     
-      return auth;
+    if(auth)
+      return true;
+    else
+      return false;
   }
 
 }
