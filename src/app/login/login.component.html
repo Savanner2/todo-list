@@ -13,15 +13,15 @@
                     Incorrect login or password
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block" [disabled]="!Form.form.valid"> Login  </button>
+                    <button type="submit" class="btn btn-success btn-block" [disabled]="!Form.form.valid"> Login  </button>
                 </div>
             </form>
         </div>
 </div>
 <div *ngIf="auth()" class="logout-wrapper">
     <div class="bg-primary user-info">
-        <span class="glyphicon glyphicon-user"></span>    
-        <span> {{user}} </span>    
+        <span class="glyphicon glyphicon-user"></span>
+        <span> {{user}} </span>
     </div>
     <button class="btn btn-danger logout" type="button" (click)="logout()"> Logout </button>
 </div>

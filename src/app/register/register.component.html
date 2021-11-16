@@ -1,0 +1,23 @@
+<div *ngIf="!auth()" class="container cont">
+    <div class="card">
+            <h2 class="card-title text-center">Register</h2>
+            <hr>
+            <form class="f1" #Form="ngForm" (ngSubmit)="submit()">
+                <div class="form-group">
+                    <input name="login" id="login" [(ngModel)]="login" class="form-control" placeholder="Login" type="text" required autocomplete="off" (input)="showErr = false;">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" [(ngModel)]="pass" name="pass" id="pass" placeholder="Password" type="password" required>
+                </div>
+                <div *ngIf="showErr" class="form-group bg-danger wrong">
+                    {{err}}
+                </div>
+                <div *ngIf="showMsg" class="form-group bg-success msg">
+                    Successfully registered
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block" [disabled]="!Form.form.valid"> Register  </button>
+                </div>
+            </form>
+        </div>
+</div>

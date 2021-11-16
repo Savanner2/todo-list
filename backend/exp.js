@@ -37,7 +37,7 @@ var connection = mysql.createConnection({
 
 // get tasks
 app.get('/task', (req, res) => {
-    console.log(`load from ${table}`);
+    console.log('\x1b[33m',`load from ${table}`);
 
         connection.query(`SELECT * FROM ${table};`, function (err, rows) {
         if(err) throw err
@@ -48,7 +48,7 @@ app.get('/task', (req, res) => {
 
 // delete task
 app.delete('/task/:id', (req, res) => {
-    console.log(`delete from ${table}`);
+    console.log('\x1b[31m',`delete from ${table}`);
     const { id } = req.params;
     connection.query(`DELETE FROM ${table} WHERE id = ${id}`);
     res.send(true);
@@ -56,7 +56,7 @@ app.delete('/task/:id', (req, res) => {
 
 // add task
 app.post('/task', (req, res) => {
-    console.log(`add from ${table}`)
+    console.log('\x1b[32m',`add from ${table}`)
     const cont = req.body.content;
     if(!cont) return;
     connection.query(`INSERT INTO ${table} VALUES (NULL, '${cont}', '0', '0')`);
@@ -67,7 +67,7 @@ app.post('/task', (req, res) => {
 
 // edit task
 app.put('/task/:id', (req,res) => {
-    console.log(`edit from ${table}`)
+    console.log('\x1b[35m',`edit from ${table}`)
     const { id } = req.params;
     const cont = req.body.content;
     if(!cont) return;
@@ -78,17 +78,14 @@ app.put('/task/:id', (req,res) => {
 
 // change completed value
 app.put('/task/:id/completed', (req,res) => {
-    console.log(`change status from ${table}`);
+    console.log('\x1b[35m',`change status from ${table}`);
     const { id } = req.params;
     connection.query(`UPDATE ${table} SET completed = !completed WHERE id = ${id}`);
 
     res.send(true);
 })
 
-const users = [
-    {name: 'admin', pass: '1234'},
-    {name: 'user', pass: '123'}
-]
+const users = []
 
 // authentication
 app.post('/login', (req, res) => {
@@ -106,7 +103,10 @@ app.post('/login', (req, res) => {
     if(users.find(u => u.login === user.login && u.password === user.password)){
         auth = true;
         table = user.login;
+        console.log('\x1b[36m%s\x1b[0m',`${user.login} logged in`);
     }
+    else
+        console.log('\x1b[36m%s\x1b[0m',`${user.login} not logged in`);
 
 
     res.status(200).send(auth);
@@ -114,13 +114,14 @@ app.post('/login', (req, res) => {
 })
 
 // registration
-app.post('/register', (req, res) => {
+app.put('/register', (req, res) => {
     const data = req.body;
     var logins = [];
     connection.query('SELECT login FROM users', (err, rows) => {
         rows.forEach(el => {
             logins.push(el.login);
         });
+        console.log(logins);
 
 
     if(!logins.find(login => login === data.login)){
@@ -130,15 +131,15 @@ app.post('/register', (req, res) => {
             content TEXT NOT NULL,
             completed TINYINT(1) NOT NULL DEFAULT 0,
             edit TINYINT(1) NOT NULL DEFAULT 0);`);
-
+            console.log('user registered');
+            res.send(true);
     }else{
-        console.log('Login taken');
+        console.log('user not registered');
+        res.send(false);
     }
 
 
     })
-
-    res.sendStatus(200)
 });
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

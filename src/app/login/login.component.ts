@@ -19,11 +19,10 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    let login = this.login;
     this.taskService.login(this.login,this.pass).subscribe({
       next: auth => {
         if(auth){
-          localStorage.setItem('auth',login)
+          localStorage.setItem('auth',this.login)
           this.user = localStorage.getItem('auth');
           this.login = '';
           this.pass = '';
@@ -34,13 +33,13 @@ export class LoginComponent implements OnInit {
           this.pass = '';
         }
       }
-      
+
     });
   }
 
   auth(): any{
     const auth = localStorage.getItem('auth');
-    
+
     if(auth)
       return true;
     else

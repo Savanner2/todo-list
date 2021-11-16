@@ -60,4 +60,13 @@ export class TaskService {
 
   }
 
+  register(login: string, pass: string): Observable<boolean>{
+    const user = {
+      login: login,
+      password: pass
+    }
+
+    return this.http.put<boolean>(`http://localhost:3000/register`,user);
+  }
+
 }
