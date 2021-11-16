@@ -1,4 +1,5 @@
 const express = require('express');
+const md5 = require('md5');
 
 const app = express();
 const PORT = 3000;
@@ -100,7 +101,7 @@ app.post('/login', (req, res) => {
     let auth = false;
 
 
-    if(users.find(u => u.login === user.login && u.password === user.password)){
+    if(users.find(u => u.login === user.login && u.password === md5(user.password))){
         auth = true;
         table = user.login;
         console.log('\x1b[36m%s\x1b[0m',`${user.login} logged in`);
@@ -124,7 +125,7 @@ app.put('/register', (req, res) => {
 
 
     if(!logins.find(login => login === data.login)){
-        connection.query(`INSERT INTO users(login, password) VALUES ('${data.login}','${data.password}')`);
+        connection.query(`INSERT INTO users(login, password) VALUES ('${data.login}','${md5(data.password)}')`);
         connection.query(`CREATE TABLE ${data.login}(
             id INT(11) PRIMARY KEY AUTO_INCREMENT,
             content TEXT NOT NULL,

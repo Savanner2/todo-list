@@ -19,12 +19,17 @@ export class RegisterComponent implements OnInit {
   }
 
   submit() {
+    console.log(this.login, this.pass);
+
     this.taskService.register(this.login,this.pass).subscribe({
       next: reg => {
         if(reg){
           this.login = '';
           this.pass = '';
           this.showMsg = true;
+          setTimeout(() => {
+            this.showMsg = false;
+          }, 5000);
         }
         else{
           this.showErr = true;
