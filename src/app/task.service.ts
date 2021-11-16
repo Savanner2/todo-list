@@ -30,14 +30,14 @@ export class TaskService {
   }
 
   changeCompleted(id: number): Observable<Task[]>{
-    const url = `${this.apiUrl}/${id}/completed`;    
+    const url = `${this.apiUrl}/${id}/completed`;
     return this.http.put<Task[]>(url, httpOptions);
   }
   changeEdit(id: number): Observable<Task[]>{
     const url = `${this.apiUrl}/${id}/edit`;
     return this.http.put<Task[]>(url, httpOptions);
   }
-  
+
   editTask(id: number, cont: string): Observable<Task[]>{
     const content = {
       content: cont
@@ -48,16 +48,16 @@ export class TaskService {
   removeTask(id: number): Observable<Task[]>{
     return this.http.delete<Task[]>(`${this.apiUrl}/${id}`);
   }
-  
 
-  login(name: string, pass: string): Observable<boolean>{
+
+  login(login: string, pass: string): Observable<boolean>{
     const user = {
-      name: name,
-      pass: pass
+      login: login,
+      password: pass
     }
-    
+
     return this.http.post<boolean>(`http://localhost:3000/login`,user);
-    
+
   }
 
 }
