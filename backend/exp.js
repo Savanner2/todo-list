@@ -37,15 +37,13 @@ connection.connect()
 
 // get tasks
 app.get('/task', (req, res) => {
-    console.log(table);
+    console.log(`load from ${table}`);
 
     connection.query(`SELECT * FROM ${table}`, function (err, rows) {
         if(err) throw err
 
         res.send(rows);
     })
-
-    console.log(`load from ${table}`);
 })
 
 // delete task
@@ -92,6 +90,7 @@ const users = [
     {name: 'user', pass: '123'}
 ]
 
+// authentication
 app.post('/login', (req, res) => {
     const user = req.body;
     let auth = false;
