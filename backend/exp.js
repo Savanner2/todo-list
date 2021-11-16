@@ -121,7 +121,6 @@ app.put('/register', (req, res) => {
         rows.forEach(el => {
             logins.push(el.login);
         });
-        console.log(logins);
 
 
     if(!logins.find(login => login === data.login)){
