@@ -4,10 +4,20 @@
             <hr>
             <form class="f1" #Form="ngForm" (ngSubmit)="submit()">
                 <div class="form-group">
-                    <input name="login" id="login" [(ngModel)]="login" class="form-control" placeholder="Login" type="text" required autocomplete="off">
+                    <input name="loginl" id="loginl" #login1="ngModel" [(ngModel)]="login" class="form-control" placeholder="Login" type="text" required autocomplete="off">
+                </div>
+                <div *ngIf="login1.invalid && (login1.dirty || login1.touched)">
+                    <div *ngIf="login1.errors?.['required']" class="val">
+                        <span class="glyphicon glyphicon-remove-sign"></span> Login is required
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" name="pass" id="pass" [(ngModel)]="pass" placeholder="Password" type="password" required>
+                    <input class="form-control" #password1="ngModel" name="passl" id="passl" [(ngModel)]="pass" placeholder="Password" type="password" required>
+                </div>
+                <div *ngIf="password1.invalid && (password1.dirty || password1.touched)">
+                    <div *ngIf="password1.errors?.['required']" class="val">
+                        <span class="glyphicon glyphicon-remove-sign"></span> Password is required
+                    </div>
                 </div>
                 <div *ngIf="wrong" class="form-group bg-danger wrong">
                     Incorrect login or password

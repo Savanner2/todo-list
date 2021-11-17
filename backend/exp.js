@@ -125,16 +125,16 @@ app.put('/register', (req, res) => {
 
 
     if(!logins.find(login => login === data.login)){
-        connection.query(`INSERT INTO users(login, password) VALUES ('${data.login}','${md5(data.password)}')`);
         connection.query(`CREATE TABLE ${data.login}(
             id INT(11) PRIMARY KEY AUTO_INCREMENT,
             content TEXT NOT NULL,
             completed TINYINT(1) NOT NULL DEFAULT 0,
             edit TINYINT(1) NOT NULL DEFAULT 0);`);
-            console.log('user registered');
+        connection.query(`INSERT INTO users(login, password) VALUES ('${data.login}','${md5(data.password)}')`);
+            console.log(`${data.login} registered`);
             res.send(true);
     }else{
-        console.log('user not registered');
+        console.log(`${data.login} not registered`);
         res.send(false);
     }
 

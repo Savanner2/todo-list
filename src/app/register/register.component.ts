@@ -9,6 +9,7 @@ import { TaskService } from '../task.service';
 export class RegisterComponent implements OnInit {
   login: string = '';
   pass: string = '';
+  pass2: string = '';
   err: string = 'Something went wrong';
   showMsg: boolean = false;
   showErr: boolean = false;
@@ -26,6 +27,7 @@ export class RegisterComponent implements OnInit {
         if(reg){
           this.login = '';
           this.pass = '';
+          this.pass2 = '';
           this.showMsg = true;
           setTimeout(() => {
             this.showMsg = false;
@@ -47,6 +49,16 @@ export class RegisterComponent implements OnInit {
       return true;
     else
       return false;
+  }
+
+  passwordsMatch(): boolean{
+    if(this.pass === '' || this.pass2 === '')
+      return false;
+    return this.pass === this.pass2;
+  }
+
+  tooLong(): boolean{
+    return this.login.length > 20;
   }
 
 }
