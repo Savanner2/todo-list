@@ -20,7 +20,6 @@ export class RegisterComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.login, this.pass);
 
     this.taskService.register(this.login,this.pass).subscribe({
       next: reg => {
