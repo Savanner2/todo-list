@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TaskService } from '../task.service';
 
 @Component({
@@ -9,13 +10,13 @@ import { TaskService } from '../task.service';
 export class LoginComponent implements OnInit {
   login: string = '';
   pass: string = '';
-  user: string | null = localStorage.getItem('auth');
   wrong: boolean = false;
 
-  constructor(private taskService: TaskService) {}
+  constructor(private taskService: TaskService, private router: Router) {}
 
 
   ngOnInit(): void {
+    if(this.auth()) this.router.navigate(['']);
   }
 
   submit() {
@@ -23,10 +24,10 @@ export class LoginComponent implements OnInit {
       next: auth => {
         if(auth){
           localStorage.setItem('auth',this.login)
-          this.user = localStorage.getItem('auth');
           this.login = '';
           this.pass = '';
           this.wrong = false;
+          this.router.navigate(['/']);
         }
         else{
           this.wrong = true;
@@ -44,10 +45,6 @@ export class LoginComponent implements OnInit {
       return true;
     else
       return false;
-  }
-
-  logout() {
-    localStorage.removeItem('auth');
   }
 
 }

@@ -69,4 +69,7 @@ export class TaskService {
     return this.http.put<boolean>(`http://localhost:3000/register`,user);
   }
 
+  logout() {
+    return this.http.get<boolean>('http://localhost:3000/logout');
+  }
 }

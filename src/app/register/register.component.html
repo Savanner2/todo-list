@@ -42,6 +42,8 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block" [disabled]="!Form.form.valid || !passwordsMatch() || tooLong()"> Register  </button>
                 </div>
+                <hr>
+            <span class="link1">Already have an account? <a [routerLink]="['/login']">Login</a></span>
             </form>
         </div>
 </div>

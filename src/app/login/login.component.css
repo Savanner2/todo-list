@@ -49,3 +49,10 @@
   .ng-invalid:not(form)  {
     border-left: 5px solid red;
   }
+
+.link1{
+  display: block;
+  text-align: center;
+  font-size: 15px;
+  margin-bottom: 20px;
+}

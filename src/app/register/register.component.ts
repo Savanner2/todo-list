@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TaskService } from '../task.service';
 
 @Component({
@@ -14,9 +15,10 @@ export class RegisterComponent implements OnInit {
   showMsg: boolean = false;
   showErr: boolean = false;
 
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService, private router: Router) { }
 
   ngOnInit(): void {
+    if(this.auth()) this.router.navigate(['']);
   }
 
   submit() {
@@ -24,13 +26,12 @@ export class RegisterComponent implements OnInit {
     this.taskService.register(this.login,this.pass).subscribe({
       next: reg => {
         if(reg){
-          this.login = '';
-          this.pass = '';
-          this.pass2 = '';
           this.showMsg = true;
           setTimeout(() => {
             this.showMsg = false;
-          }, 5000);
+            this.router.navigate(['/login']);
+          }, 2000);
+
         }
         else{
           this.showErr = true;

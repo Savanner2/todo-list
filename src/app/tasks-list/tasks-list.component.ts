@@ -10,16 +10,18 @@ import { Task } from '../Task';
 })
 export class TasksListComponent implements OnInit {
   tasks: Task[] = [];
+  user: string | null = localStorage.getItem('auth');
 
   constructor(private taskService: TaskService) { }
 
   ngOnInit(): void {
-    this.getTasks();    
+    this.getTasks();
+    this.user = localStorage.getItem('auth');
   }
 
   update(e:any, task:Task): void{
   task.content = e.target.textContent;
-    
+
   }
 
   onChangeCompleted(id: number): void{
@@ -31,12 +33,12 @@ export class TasksListComponent implements OnInit {
   }
 
   onEdit(id: number, edit: boolean): void{
-    const t = this.tasks.find(t => t.id == id);    
+    const t = this.tasks.find(t => t.id == id);
     if(!t) return;
     t.edit = !t.edit;
     if(edit)
       this.getTasks();
-    
+
   }
 
   onSave(id: number, cont: string): void{
@@ -46,9 +48,23 @@ export class TasksListComponent implements OnInit {
   getTasks(): void{
     this.taskService.getTasks().subscribe((tasks) => this.tasks = tasks);
   }
-  
+
   onTaskAdd(): void{
     this.getTasks();
   }
-  
+
+  logout() {
+    localStorage.removeItem('auth');
+    this.taskService.logout().subscribe();
+  }
+
+  auth(): any{
+    const auth = localStorage.getItem('auth');
+
+    if(auth)
+      return true;
+    else
+      return false;
+  }
+
 }

@@ -1,15 +1,16 @@
-<app-form (taskAdd)="onTaskAdd()"></app-form>
-<div class="container list">
-    <h1 class="empty" *ngIf="!tasks.length"><span class="glyphicon empty-icon glyphicon-list"></span><br>Task list is empty</h1>
-    <div class="task" *ngFor="let task of tasks" [ngClass]="{green: task.completed}">
-        <span class="buttons">
-            <button type="button" class="edit btn" (click)="onEdit(task.id, task.edit)"> 
-                <span class="glyphicon glyphicon-pencil"></span>
-            </button>
-            <button type="button" class="remove btn" (click)="onRemove(task.id)">
-                <span class="glyphicon glyphicon-trash"></span>
-            </button>
-        </span>
+<div *ngIf="auth()">
+    <app-form (taskAdd)="onTaskAdd()"></app-form>
+    <div class="container list">
+        <h1 class="empty" *ngIf="!tasks.length"><span class="glyphicon empty-icon glyphicon-list"></span><br>Task list is empty</h1>
+        <div class="task" *ngFor="let task of tasks" [ngClass]="{green: task.completed}">
+            <span class="buttons">
+                <button type="button" class="edit btn" (click)="onEdit(task.id, task.edit)">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+                <button type="button" class="remove btn" (click)="onRemove(task.id)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </span>
         <div class="rel" (dblclick)="onChangeCompleted(task.id)">
             <h3 *ngIf="!task.edit" class="taskc">
                 {{task.content}}
@@ -20,5 +21,14 @@
                 <span class="glyphicon glyphicon-ok"></span>
             </button>
         </div>
+        </div>
     </div>
 </div>
+<div *ngIf="auth()" class="logout-wrapper">
+    <div class="bg-primary user-info">
+        <span class="glyphicon glyphicon-user"></span>
+        <span> {{user}} </span>
+    </div>
+    <button class="btn btn-danger logout" type="button" (click)="logout()"> Logout </button>
+</div>
+<div class="landing" *ngIf="!auth()"><a [routerLink]="['/login']">Zaloguj się </a> lub <a [routerLink]="['/register']"> zarejestruj</a>, aby kontynuować</div>

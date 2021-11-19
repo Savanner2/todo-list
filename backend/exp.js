@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-var table = 'admin';
+var table = '';
 var mysql = require('mysql')
 var connection = mysql.createConnection({
     host: '127.0.0.1',
@@ -38,6 +38,7 @@ var connection = mysql.createConnection({
 
 // get tasks
 app.get('/task', (req, res) => {
+    if(table == '') return;
     console.log('\x1b[33m',`load from ${table}`);
 
         connection.query(`SELECT * FROM ${table};`, function (err, rows) {
@@ -140,6 +141,13 @@ app.put('/register', (req, res) => {
 
 
     })
+});
+
+// logout
+app.get('/logout', (req, res) => {
+    console.log('\x1b[31m',`${table} logged out`);
+    table = '';
+    res.send(true);
 });
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

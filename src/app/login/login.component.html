@@ -4,7 +4,7 @@
             <hr>
             <form class="f1" #Form="ngForm" (ngSubmit)="submit()">
                 <div class="form-group">
-                    <input name="loginl" id="loginl" #login1="ngModel" [(ngModel)]="login" class="form-control" placeholder="Login" type="text" required autocomplete="off">
+                    <input name="loginl" id="loginl" #login1="ngModel" [(ngModel)]="login" class="form-control" placeholder="Login" type="text" required autofocus autocomplete="off">
                 </div>
                 <div *ngIf="login1.invalid && (login1.dirty || login1.touched)">
                     <div *ngIf="login1.errors?.['required']" class="val">
@@ -26,12 +26,7 @@
                     <button type="submit" class="btn btn-success btn-block" [disabled]="!Form.form.valid"> Login  </button>
                 </div>
             </form>
+            <hr>
+            <span class="link1">Don't have an account? <a [routerLink]="['/register']">Create one</a></span>
         </div>
-</div>
-<div *ngIf="auth()" class="logout-wrapper">
-    <div class="bg-primary user-info">
-        <span class="glyphicon glyphicon-user"></span>
-        <span> {{user}} </span>
-    </div>
-    <button class="btn btn-danger logout" type="button" (click)="logout()"> Logout </button>
 </div>
