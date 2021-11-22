@@ -15,7 +15,7 @@
             <h3 *ngIf="!task.edit" class="taskc">
                 {{task.content}}
             </h3>
-            <h3 *ngIf="task.edit" class="edit-field" contenteditable="true" [textContent]="task.content" (input)="update($event,task)">{{task.content}}</h3>
+            <h3 *ngIf="task.edit" #name class="edit-field" contenteditable="true" (keydown.enter)="onSave(task.id, task.content)" (keyup.escape)="onEdit(task.id,task.edit)" [textContent]="task.content" (input)="update($event,task)">{{task.content}}</h3>
 
             <button *ngIf="task.edit" type="button" class="save btn btn-default" (click)="onSave(task.id, task.content)">
                 <span class="glyphicon glyphicon-ok"></span>

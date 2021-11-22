@@ -4,7 +4,7 @@
             <hr>
             <form class="f1" #Form="ngForm" (ngSubmit)="submit()">
                 <div class="form-group">
-                    <input name="loginr" id="loginr" #login1="ngModel" [ngClass]="{'red-left': tooLong()}" [(ngModel)]="login" class="form-control" placeholder="Login" type="text" minlength="3" required autocomplete="off" (input)="showErr = false">
+                    <input name="loginr" id="loginr" #login1="ngModel" [ngClass]="{'red-left': tooLong() || showErr}" [(ngModel)]="login" class="form-control" placeholder="Login" type="text" minlength="3" required autocomplete="off" (input)="showErr = false">
                 </div>
                 <div *ngIf="tooLong() || login1.invalid && (login1.dirty || login1.touched)">
                     <div *ngIf="login1.errors?.['minlength']" class="val">
