@@ -89,7 +89,7 @@ app.put('/task/:id/completed', (req,res) => {
 
 const users = []
 
-// authentication
+// login
 app.post('/login', (req, res) => {
     var users = []
     connection.query('SELECT login, password FROM users', (err,rows) => {
@@ -111,7 +111,7 @@ app.post('/login', (req, res) => {
         console.log('\x1b[36m%s\x1b[0m',`${user.login} not logged in`);
 
 
-    res.status(200).send(auth);
+    res.send(auth);
     })
 })
 

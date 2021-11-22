@@ -15,8 +15,8 @@ export class TasksListComponent implements OnInit {
   constructor(private taskService: TaskService) { }
 
   ngOnInit(): void {
-    this.getTasks();
     this.user = localStorage.getItem('auth');
+    this.getTasks();
   }
 
   update(e:any, task:Task): void{
