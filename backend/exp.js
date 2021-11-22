@@ -29,8 +29,8 @@ var table = '';
 var mysql = require('mysql')
 var connection = mysql.createConnection({
     host: '127.0.0.1',
-    user: 'nowyuser',
-    password: 'nowyuser',
+    user: 'root',
+    password: '',
     port: '3306',
     database: 'todo_list'
 })
@@ -97,7 +97,9 @@ app.post('/login', (req, res) => {
 
         users = rows;
 
-    if(!users.length) return
+    if(!users.length){
+        res.send(false);
+    }
     const user = req.body;
     let auth = false;
 
