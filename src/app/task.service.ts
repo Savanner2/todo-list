@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Task } from './Task';
+import { CookieService } from 'ngx-cookie-service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -16,48 +17,58 @@ const httpOptions = {
 export class TaskService {
   private apiUrl = 'http://localhost:3000/task'
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) {}
+
+  getUid(){
+    return this.cookieService.get('uid');
+  }
 
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.apiUrl);
+    const uid = this.getUid();
+
+    return this.http.get<Task[]>(`${this.apiUrl}/${uid}`);
   }
 
   addTask(cont: string): Observable<Task> {
     const content = {
-      content: cont
+      content: cont,
+      uid: this.getUid()
     }
+
     return this.http.post<Task>(this.apiUrl, content);
   }
 
   changeCompleted(id: number): Observable<Task[]>{
     const url = `${this.apiUrl}/${id}/completed`;
-    return this.http.put<Task[]>(url, httpOptions);
-  }
-  changeEdit(id: number): Observable<Task[]>{
-    const url = `${this.apiUrl}/${id}/edit`;
-    return this.http.put<Task[]>(url, httpOptions);
+    const obj = {
+      uid: this.getUid()
+    }
+
+    return this.http.put<Task[]>(url, obj, httpOptions);
   }
 
   editTask(id: number, cont: string): Observable<Task[]>{
     const content = {
-      content: cont
+      content: cont,
+      uid: this.getUid()
     }
-    return this.http.put<Task[]>(`${this.apiUrl}/${id}`,content);
+    return this.http.put<Task[]>(`${this.apiUrl}/edit/${id}`,content);
   }
 
   removeTask(id: number): Observable<Task[]>{
-    return this.http.delete<Task[]>(`${this.apiUrl}/${id}`);
+    const uid = this.getUid();
+
+    return this.http.delete<Task[]>(`${this.apiUrl}/${uid}/${id}`);
   }
 
 
-  login(login: string, pass: string): Observable<boolean>{
+  login(login: string, pass: string): Observable<any>{
     const user = {
       login: login,
       password: pass
     }
 
-    return this.http.post<boolean>(`http://localhost:3000/login`,user);
-
+    return this.http.post<any>(`http://localhost:3000/login`,user);
   }
 
   register(login: string, pass: string): Observable<boolean>{

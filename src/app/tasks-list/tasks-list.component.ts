@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { TaskService } from '../task.service';
 import { Task } from '../Task';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -12,7 +13,7 @@ export class TasksListComponent implements OnInit {
   tasks: Task[] = [];
   user: string | null = localStorage.getItem('auth');
 
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService, private cookieService: CookieService) { }
 
   ngOnInit(): void {
     this.user = localStorage.getItem('auth');
@@ -55,6 +56,7 @@ export class TasksListComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('auth');
+    this.cookieService.delete('uid');
     this.taskService.logout().subscribe();
   }
 

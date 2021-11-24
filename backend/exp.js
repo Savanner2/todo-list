@@ -1,10 +1,12 @@
 const express = require('express');
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
+const cookieParser = require('cookie-parser')
 
 const app = express();
 const PORT = 3000;
 
+app.use(cookieParser());
 app.use(express.json());
 
 app.use(function (req, res, next) {
@@ -26,8 +28,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-var table = 'tasks';
-var uid = 1;
+
 var connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -38,53 +39,53 @@ var connection = mysql.createConnection({
 
 
 // get tasks
-app.get('/task', (req, res) => {
-    if(table == '') return;
-    console.log('\x1b[33m',`load from ${table}`);
+app.get('/task/:uid', (req, res) => {
+    const {uid} = req.params;
 
-        connection.query(`SELECT id, content, completed, edit FROM ${table} where uid=${uid}`, function (err, rows) {
+    connection.query(`SELECT id, content, completed, edit FROM tasks where uid=${uid}`, function (err, rows) {
         if(err) throw err
+        console.log('\x1b[33m',`load`);
 
-        console.log(rows);
         res.send(rows);
     })
 })
 
 // delete task
-app.delete('/task/:id', (req, res) => {
-    console.log('\x1b[31m',`delete from ${table}`);
-    const { id } = req.params;
-    connection.query(`DELETE FROM ${table} WHERE id = ${id} and uid = ${uid}`);
+app.delete('/task/:uid/:id', (req, res) => {
+    console.log('\x1b[31m',`delete`);
+    const { id, uid } = req.params;
+    connection.query(`DELETE FROM tasks WHERE id = ${id} and uid = ${uid}`);
     res.send(true);
 })
 
 // add task
 app.post('/task', (req, res) => {
-    console.log('\x1b[32m',`add from ${table}`)
-    const cont = req.body.content;
-    if(!cont) return;
-    connection.query(`INSERT INTO ${table} VALUES (NULL, ${uid}, '${cont}', '0', '0')`);
+    console.log('\x1b[32m',`add`)
+    const {content, uid} = req.body;
+    if(!content) return;
+    connection.query(`INSERT INTO tasks VALUES (NULL, ${uid}, '${content}', '0', '0')`);
 
     res.send(true);
 })
 
 
 // edit task
-app.put('/task/:id', (req,res) => {
-    console.log('\x1b[35m',`edit from ${table}`)
+app.put('/task/edit/:id', (req,res) => {
     const { id } = req.params;
-    const cont = req.body.content;
-    if(!cont) return;
-    connection.query(`UPDATE ${table} SET content = "${cont}" WHERE id = ${id} and uid = ${uid}`);
+    const { content, uid } = req.body;
+    if(!content) return;
+    connection.query(`UPDATE tasks SET content = "${content}" WHERE id = ${id} and uid = ${uid}`);
+    console.log('\x1b[35m',`edit`)
 
     res.send(true);
 })
 
 // change completed value
 app.put('/task/:id/completed', (req,res) => {
-    console.log('\x1b[35m',`change status from ${table}`);
+    console.log('\x1b[35m',`change status`);
     const { id } = req.params;
-    connection.query(`UPDATE ${table} SET completed = !completed WHERE id = ${id} and uid = ${uid}`);
+    const { uid } = req.body;
+    connection.query(`UPDATE tasks SET completed = !completed WHERE id = ${id} and uid = ${uid}`);
 
     res.send(true);
 })
@@ -113,7 +114,7 @@ app.post('/login', (req, res) => {
 
                 if(comp){
                     console.log('\x1b[36m%s\x1b[0m',`${user.login} logged in`);
-                    res.send(true);
+                    res.send(''+u.id);
                 }
                 else{
                     console.log('\x1b[36m%s\x1b[0m',`${user.login} not logged in`);
@@ -160,8 +161,7 @@ app.put('/register', (req, res) => {
 
 // logout
 app.get('/logout', (req, res) => {
-    console.log('\x1b[31m',`${table} logged out`);
-    table = '';
+    console.log('\x1b[31m',`logged out`);
     res.send(true);
 });
 

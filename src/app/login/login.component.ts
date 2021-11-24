@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { TaskService } from '../task.service';
 
 @Component({
@@ -12,7 +13,10 @@ export class LoginComponent implements OnInit {
   pass: string = '';
   wrong: boolean = false;
 
-  constructor(private taskService: TaskService, private router: Router) {}
+  constructor(
+    private taskService: TaskService,
+    private router: Router,
+    private cookieService: CookieService) {}
 
 
   ngOnInit(): void {
@@ -22,8 +26,9 @@ export class LoginComponent implements OnInit {
   submit() {
     this.taskService.login(this.login,this.pass).subscribe({
       next: auth => {
-        if(auth){
-          localStorage.setItem('auth',this.login)
+        if(auth != false){
+          localStorage.setItem('auth',this.login);
+          this.cookieService.set('uid',auth);
           this.login = '';
           this.pass = '';
           this.wrong = false;
@@ -33,6 +38,7 @@ export class LoginComponent implements OnInit {
           this.wrong = true;
           this.pass = '';
         }
+
       }
 
     });
