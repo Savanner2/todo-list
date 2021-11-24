@@ -72,4 +72,13 @@ export class TaskService {
   logout() {
     return this.http.get<boolean>('http://localhost:3000/logout');
   }
+
+  auth(): boolean{
+    const auth = localStorage.getItem('auth');
+
+    if(auth)
+      return true;
+    return false;
+  }
+
 }

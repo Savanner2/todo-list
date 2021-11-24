@@ -38,13 +38,8 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  auth(): any{
-    const auth = localStorage.getItem('auth');
-
-    if(auth)
-      return true;
-    else
-      return false;
+  auth(): boolean{
+    return this.taskService.auth();
   }
 
 }
