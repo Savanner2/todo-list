@@ -103,22 +103,6 @@
     margin: 0 auto;
 }
 
-.logout-wrapper{
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.user-info{
-  padding: 10px;
-  font-size: 25px;
-  border-radius: 10px;
-  margin-bottom: 5px;
-  user-select: none;
-}
 
 .wrong{
   padding: 10px;
@@ -137,11 +121,11 @@
 
 .ng-valid[required], .ng-valid.required  {
     border-left: 5px solid green;
-  }
+}
 
-  .ng-invalid:not(form)  {
+.ng-invalid:not(form)  {
     border-left: 5px solid red;
-  }
+}
 
 .landing{
     text-align: center;

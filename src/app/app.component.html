@@ -3,6 +3,15 @@
                 <span class="glyphicon glyphicon-check"></span>
                 <h1 class="title">ToDo list</h1>
         </a>
+        <div *ngIf="auth()" class="logout-wrapper">
+                <div class="bg-primary user-info">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span> {{user}} </span>
+                </div>
+                <button class="btn btn-danger" type="button" (click)="logout()"> Logout </button>
+        </div>
 
-        <router-outlet></router-outlet>
+        <main [@routeAnimations]="prepareRoute(outlet)">
+                <router-outlet #outlet="outlet"></router-outlet>
+        </main>
 </div>

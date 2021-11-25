@@ -18,8 +18,6 @@ export class FormComponent implements OnInit {
     }
 
     onSubmit(): void {
-        console.log(this.cont);
-        
         this.taskService.addTask(this.cont).subscribe(() => this.taskAdd.emit());
     }
 

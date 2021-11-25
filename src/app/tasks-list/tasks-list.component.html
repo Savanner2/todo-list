@@ -1,4 +1,4 @@
-<div *ngIf="auth()">
+<div class="wrapper1" *ngIf="auth()">
     <app-form (taskAdd)="onTaskAdd()"></app-form>
     <div class="container list">
         <h1 class="empty" *ngIf="!tasks.length"><span class="glyphicon empty-icon glyphicon-list"></span><br>Task list is empty</h1>
@@ -24,11 +24,6 @@
         </div>
     </div>
 </div>
-<div *ngIf="auth()" class="logout-wrapper">
-    <div class="bg-primary user-info">
-        <span class="glyphicon glyphicon-user"></span>
-        <span> {{user}} </span>
-    </div>
-    <button class="btn btn-danger logout" type="button" (click)="logout()"> Logout </button>
-</div>
+
+
 <div class="landing" *ngIf="!auth()"><a [routerLink]="['/login']">Zaloguj się </a> lub <a [routerLink]="['/register']"> zarejestruj</a>, aby kontynuować</div>

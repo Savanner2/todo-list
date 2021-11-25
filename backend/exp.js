@@ -124,6 +124,10 @@ app.post('/login', (req, res) => {
             })
         })
     }
+    else{
+        console.log('\x1b[36m%s\x1b[0m',`${user.login} not logged in`);
+        res.send(false);
+    }
 
 
     })

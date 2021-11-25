@@ -17,7 +17,8 @@ export class TasksListComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = localStorage.getItem('auth');
-    this.getTasks();
+    if(this.user)
+      this.getTasks();
   }
 
   update(e:any, task:Task): void{
@@ -52,12 +53,6 @@ export class TasksListComponent implements OnInit {
 
   onTaskAdd(): void{
     this.getTasks();
-  }
-
-  logout() {
-    localStorage.removeItem('auth');
-    this.cookieService.delete('uid');
-    this.taskService.logout().subscribe();
   }
 
   auth(): boolean{
