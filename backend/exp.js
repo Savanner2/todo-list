@@ -42,7 +42,7 @@ var connection = mysql.createConnection({
 app.get('/task/:uid', (req, res) => {
     const {uid} = req.params;
 
-    connection.query(`SELECT id, content, completed, edit FROM tasks where uid=${uid}`, function (err, rows) {
+    connection.query(`SELECT id, content, completed, edit FROM tasks where uid=?`,[uid], function (err, rows) {
         if(err) throw err
         console.log('\x1b[33m',`load`);
 
@@ -54,7 +54,7 @@ app.get('/task/:uid', (req, res) => {
 app.delete('/task/:uid/:id', (req, res) => {
     console.log('\x1b[31m',`delete`);
     const { id, uid } = req.params;
-    connection.query(`DELETE FROM tasks WHERE id = ${id} and uid = ${uid}`);
+    connection.query(`DELETE FROM tasks WHERE id = ? and uid = ?`,[id,uid]);
     res.send(true);
 })
 
@@ -63,7 +63,7 @@ app.post('/task', (req, res) => {
     console.log('\x1b[32m',`add`)
     const {content, uid} = req.body;
     if(!content) return;
-    connection.query(`INSERT INTO tasks VALUES (NULL, ${uid}, '${content}', '0', '0')`);
+    connection.query(`INSERT INTO tasks VALUES (NULL, ?, ?, '0', '0')`,[uid,content]);
 
     res.send(true);
 })
@@ -74,7 +74,7 @@ app.put('/task/edit/:id', (req,res) => {
     const { id } = req.params;
     const { content, uid } = req.body;
     if(!content) return;
-    connection.query(`UPDATE tasks SET content = "${content}" WHERE id = ${id} and uid = ${uid}`);
+    connection.query(`UPDATE tasks SET content = ? WHERE id = ? and uid = ?`,[content,id,uid]);
     console.log('\x1b[35m',`edit`)
 
     res.send(true);
@@ -85,49 +85,40 @@ app.put('/task/:id/completed', (req,res) => {
     console.log('\x1b[35m',`change status`);
     const { id } = req.params;
     const { uid } = req.body;
-    connection.query(`UPDATE tasks SET completed = !completed WHERE id = ${id} and uid = ${uid}`);
+    connection.query(`UPDATE tasks SET completed = !completed WHERE id = ? and uid = ?`,[id,uid]);
 
     res.send(true);
 })
 
-const users = []
-
 // login
 app.post('/login', (req, res) => {
-    var users = []
-    connection.query('SELECT id, login, password FROM users', (err,rows) => {
+    const user = req.body;
+    connection.query('SELECT id, login, password FROM users WHERE login = ?', [user.login], (err,rows) => {
         if(err) throw err
 
-        users = rows;
-
-    if(!users.length){
-        res.send(false);
-    }
-    const user = req.body;
-
-    const u = users.find(u => u.login === user.login);
-    if(u){
-        const hash = u.password;
-        bcrypt.genSalt(12, function(err, salt) {
+        if(rows.length){
+            const hash = rows[0].password;
+            bcrypt.genSalt(12, function(err, salt) {
             bcrypt.compare(user.password, hash, function(err, comp){
                 if (err) throw err;
 
                 if(comp){
                     console.log('\x1b[36m%s\x1b[0m',`${user.login} logged in`);
-                    res.send(''+u.id);
+                    res.send(''+rows[0].id);
                 }
                 else{
                     console.log('\x1b[36m%s\x1b[0m',`${user.login} not logged in`);
                     res.send(false);
                 }
 
+                })
             })
-        })
-    }
-    else{
-        console.log('\x1b[36m%s\x1b[0m',`${user.login} not logged in`);
-        res.send(false);
-    }
+
+        }
+        else{
+            console.log('\x1b[36m%s\x1b[0m',`${user.login} not logged in`);
+            res.send(false);
+        }
 
 
     })
@@ -136,24 +127,17 @@ app.post('/login', (req, res) => {
 // registration
 app.put('/register', (req, res) => {
     const data = req.body;
-    var logins = [];
-    connection.query('SELECT login FROM users', (err, rows) => {
-        rows.forEach(el => {
-            logins.push(el.login);
-        });
-
-
-    if(!logins.find(login => login === data.login)){
-        bcrypt.genSalt(12, function(err, salt) {
-            bcrypt.hash(data.password, salt, function(err, hash){
-                connection.query(`INSERT INTO users(login, password) VALUES ('${data.login}','${hash}')`, err => {
-                    if (err) throw err;
-                    console.log('\x1b[0m',`${data.login} registered`);
-                    res.send(true);
+    connection.query('SELECT login FROM users WHERE login = ?', [data.login], (err, rows) => {
+        if(!rows.length){
+            bcrypt.genSalt(12, function(err, salt) {
+                bcrypt.hash(data.password, salt, function(err, hash){
+                    connection.query(`INSERT INTO users(login, password) VALUES (?,?)`,[data.login,hash], err => {
+                        if (err) throw err;
+                        console.log('\x1b[0m',`${data.login} registered`);
+                        res.send(true);
                     });
-
+                })
             })
-        })
     }else{
         console.log('\x1b[0m',`${data.login} not registered`);
         res.send(false);
